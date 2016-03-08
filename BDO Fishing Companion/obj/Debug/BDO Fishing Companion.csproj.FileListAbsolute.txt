@@ -1,0 +1,6 @@
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\bin\Debug\BDO Fishing Companion.exe.config
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\bin\Debug\BDO Fishing Companion.exe
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\bin\Debug\BDO Fishing Companion.pdb
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\obj\Debug\BDO Fishing Companion.csprojResolveAssemblyReference.cache
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\obj\Debug\BDO Fishing Companion.exe
+E:\Dev\BDO Fishing Companion\BDO Fishing Companion\obj\Debug\BDO Fishing Companion.pdb
