@@ -46,8 +46,13 @@
   <ItemGroup>
     <Compile Include="ConsoleColor.cs" />
     <Compile Include="BDO_Fishing_Companion.cs" />
+    <Compile Include="ConsoleSpinner.cs" />
+    <Compile Include="HotKeyManager.cs" />
+    <Compile Include="KeyboardOld.cs" />
     <Compile Include="Mouse.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

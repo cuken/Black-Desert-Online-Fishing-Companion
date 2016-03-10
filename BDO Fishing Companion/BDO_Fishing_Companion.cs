@@ -7,16 +7,30 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.IO;
+using System.Threading;
 
 namespace BDO_Fishing_Companion
 {
     class BDO_Fishing_Companion
     {
         System.Timers.Timer t1 = new System.Timers.Timer();
+        static ManualResetEvent sm = new ManualResetEvent(false);
 
         public static string banner1 = File.ReadAllText("./a1.txt");
         public static string banner2 = File.ReadAllText("./a2.txt");
         public static string banner3 = File.ReadAllText("./a3.txt");
+        public static Spinner spinner = new Spinner("dots", Console.CursorLeft, Console.CursorTop, 100);
+
+        public static string windowTitle = "";
+
+        static int pole1X = 0;
+        static int pole1Y = 0;
+        static int pole2X = 0;
+        static int pole2Y = 0;
+        static int pole3X = 0;
+        static int pole3Y = 0;
+
+        static Point point;
 
         static void Main(string[] args)
         {
@@ -24,31 +38,90 @@ namespace BDO_Fishing_Companion
             CC.WriteBanner();
             Console.WriteLine(DateTime.Now.ToLocalTime().ToString());
 
-            //Console.Read();
-
-            //for(int i = 0; i < 200; i++)
-            //{
-            //    Cursor.Position = new System.Drawing.Point(500 + i, 500);
-            //    Mouse.SendClick();
-            //}
+            HotKeyManager.RegisterHotKey(Keys.F, KeyModifiers.Shift);
+            HotKeyManager.RegisterHotKey(Keys.F1, KeyModifiers.Alt);
 
             CC.WriteGreen(">");
             string input = Console.ReadLine();
 
             while(Exit(input))
             {
-                switch(input)
+                switch(input.ToLower())
                 {
                     case "start":
                     case "fish":
                         StartFishing();
                         break;
+                    case "testkey":
+                        TestKeyboard();
+                        break;
+                    case "testmouse":
+                        TestMouse();
+                        break;
+                    case "testwindow":
+                        GetWindowTitle();
+                        break;
+                    case "setup":
+                        Setup();
+                        break;                        
                 }
 
                 CC.WriteGreen(">");
                 input = Console.ReadLine();
             }       
 
+        }
+       
+        private static void GetWindowTitle()
+        {
+            spinner.Start();
+            HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressedWindow;
+            sm.WaitOne();
+            spinner.Stop();
+            HotKeyManager.HotKeyPressed -= HotKeyManager_HotKeyPressedWindow;
+            sm.Reset();
+        }
+
+        private static void HotKeyManager_HotKeyPressedWindow(object sender, HotKeyEventArgs e)
+        {
+            windowTitle = WindowHelper.GetWindowTitle();
+            CC.WriteBlueLine(windowTitle);
+            sm.Set();
+        }
+
+        private static void Setup()
+        {
+            spinner.Start();
+            HotKeyManager.HotKeyPressed += HotKeyManager_HotKeyPressed;
+            sm.WaitOne();
+            spinner.Stop();
+            Console.WriteLine($"X:{pole1X} | Y:{pole1Y}");
+            HotKeyManager.HotKeyPressed -= HotKeyManager_HotKeyPressed;
+            sm.Reset();
+        }
+
+        private static void HotKeyManager_HotKeyPressed(object sender, HotKeyEventArgs e)
+        {
+            point = new Point(Cursor.Position.X, Cursor.Position.Y);
+            pole1X = Cursor.Position.X;
+            pole1Y = Cursor.Position.Y;
+            sm.Set();
+        }        
+
+        private static void TestMouse()
+        {            
+            Cursor.Position = new System.Drawing.Point(pole1X, pole1Y);
+            Mouse.SendLeftClick();
+            Thread.Sleep(1000);
+            Mouse.SendRightClick();
+        }
+
+        private static void TestKeyboard()
+        {
+            spinner.Start();
+            Thread.Sleep(10000);
+            spinner.Stop();
+            SendKeys.SendWait("Hello Ryan");
         }
 
         static void StartFishing()
@@ -86,7 +159,6 @@ namespace BDO_Fishing_Companion
 
         }
 
-        
 
         static bool Exit(string text)
         {
